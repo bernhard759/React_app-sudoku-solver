@@ -1,0 +1,82 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 1280px;
+  background-color: #DCDCDC;
+}
+
+#root {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sudoku-board {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: calc(100vw / 2.6);
+  width: 100%;
+  background-color: white;
+  flex-grow: 1;
+  box-shadow: 1px 1px 0 2px rgba(0,0,0,0.25);
+}
+
+.sudoku-smallboard {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid  	#C8C8C8;
+}
+
+.sudoku-cell {
+  min-width: 50px;
+  aspect-ratio: 1;
+  border: 1px solid  	#C8C8C8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sudoku-cell .input {
+  all: unset;
+  font-size: calc(1.25rem + min(2vw, 25px));
+  width: calc(1.25rem + min(2vh, 25px));
+  height: 100%;
+  padding-inline: calc((100% - calc(1.25rem + min(2vh, 25px)) ) / 2);
+}
+
+.input:not(:placeholder-shown) {
+  background-color: hsl(0, 0%, 95%);
+}
+
+.input.solved {
+  background-color: hsl(157, 100%, 90%)
+}
+
+.sudoku-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  margin-block: 1em;
+}
+
+*[class^="toast-message"], *[class*=" toast-message"] {
+  background: hsl(0, 0%, 95%) !important;
+  box-shadow: 1px 1px 0 2px rgba(0,0,0,0.15) !important;
+}
+
+.toast-message-warning {
+--toastify-color-progress-light: DarkOrange !important;
+}
+
+.toast-message-success {
+--toastify-color-progress-light: hsl(157, 100%, 29%) !important;
+}
