@@ -1,10 +1,11 @@
 import './App.css';
-import { DefaultButton } from "./styled_components/Button";
-import { DefaultCheckbox } from "./styled_components/Checkbox";
+import { DefaultButton } from "./components/styled/Button";
+import { DefaultCheckbox } from "./components/styled/Checkbox";
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { produce } from "immer"
+import Board from './components/Board';
 
 function App() {
 
@@ -127,12 +128,12 @@ function App() {
     const cellStartCol = c % 3;
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        if (board[boxStartRow+i][cellStartRow +j] === num ||
-          board[boxStartCol+j*3][cellStartCol+j*3] === num) {
+        if (board[boxStartRow + i][cellStartRow + j] === num ||
+          board[boxStartCol + j * 3][cellStartCol + j * 3] === num) {
           return false;
         }
       }
- 
+
     }
 
     // Check the sudoku box
@@ -157,9 +158,9 @@ function App() {
   function numberInputCheck(val: string, i: number, j: number) {
     let returnFlag = false;
     let inputValue = String(val);
-    let boardTmp = [...board];
 
-    console.log(Number(inputValue))
+    // Dont respond when in solving mode
+    if (isSolving) return;
 
     // Only numbers allowed
     if (!isAlphanumeric(inputValue) && !(Number(inputValue) == 0 && board[i][j] != 0)) {
@@ -185,7 +186,7 @@ function App() {
 
     // Box check
     {
-      if (boardTmp[i].includes(Number(inputValue))) {
+      if (board[i].includes(Number(inputValue))) {
         toast(`Number ${inputValue} already in this box!`, {
           position: toast.POSITION.TOP_RIGHT,
           className: "toast-message-warning",
@@ -198,7 +199,7 @@ function App() {
     {
       let boxNum = i % 3;
       let colNum = j % 3;
-      boardTmp.forEach((b, k) => {
+      board.forEach((b, k) => {
         b.forEach((_: any, l: number) => {
           if (boxNum == k % 3 && l % 3 == colNum && board[k][l] == Number(inputValue)) {
             toast(`Number ${inputValue} already in this column!`, {
@@ -214,7 +215,7 @@ function App() {
       {
         let rowCounter = Math.floor(i / 3);
         let rowNum = Math.floor(j / 3);
-        boardTmp.forEach((b, k) => {
+        board.forEach((b, k) => {
           b.forEach((_: any, l: number) => {
             if (Math.floor(k / 3) == rowCounter && Math.floor(l / 3) == rowNum && board[k][l] == Number(inputValue)) {
               toast(`Number ${inputValue} already in this row!`, {
@@ -299,25 +300,8 @@ function App() {
 
       </div >
       {/*<!-- Sudoku board -->*/}
-      < div className="sudoku-board" >
-        {
-          board.map((b, i) =>
-            <div className="sudoku-smallboard" key={i}>
-              {
-                b.map((_: any, j: number) =>
-                  <div className="sudoku-cell" key={`${i}${j}`}>
-                    <input title="Sudoku cell" className={"input " + trackerBoard[i][j]} key={`${i}${j}`} maxLength={1} placeholder="" value={board[i][j] == 0 ? "" : board[i][j]}
-                      onChange={(e) => {
-                        numberInputCheck(e.target.value, i, j)
-                      }}
-                    />
-                  </div>
-                )
-              }
-            </div>
-          )
-        }
-      </div >
+      <Board board={board} trackerBoard={trackerBoard} checkFunc={numberInputCheck} ></Board>
+
       <ToastContainer />
     </>
   )
