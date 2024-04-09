@@ -29,7 +29,9 @@ body {
   align-items: center;
   justify-content: center;
   grid-template-columns: repeat(3, 1fr);
-  max-width: calc(100vw / 2.6);
+  max-width: 80vw;
+  aspect-ratio: 1;
+  margin-block: 1em;
   width: 100%;
   background-color: var(--boardColor);
   flex-grow: 1;
@@ -44,7 +46,6 @@ body {
 }
 
 .sudoku-cell {
-  min-width: 50px;
   aspect-ratio: 1;
   border: 1px solid var(--borderColor);
   display: flex;
@@ -55,7 +56,7 @@ body {
 .sudoku-cell .input {
   all: unset;
   font-size: calc(1.25rem + min(2vw, 25px));
-  width: calc(1.25rem + min(2vh, 25px));
+  width: 100%;
   height: 100%;
   padding-inline: calc((100% - calc(1.25rem + min(2vh, 25px)) ) / 2);
 }

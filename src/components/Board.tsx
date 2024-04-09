@@ -7,7 +7,7 @@ type BoardProps = {
 
 function Board(props: BoardProps) {
     return (
-        < div className="sudoku-board" >
+        <div className="sudoku-board" >
             {
                 props.board.map((b, i) =>
                     <div className="sudoku-smallboard" key={i}>
